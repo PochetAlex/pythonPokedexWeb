@@ -1,0 +1,9 @@
+recherche a partir nom pokemon
+qui il est avec son descriptif 
+confirmation visuel du pokemon
+point de vie/attaque/type
+
+Collection de se qu'il capture
+
+dire si le site est en francais ou anglais 
+préférence version française
