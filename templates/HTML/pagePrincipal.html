@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pokedex</title>
+    <link href="pagePrincipale.css" rel="stylesheet" />
+  </head>
+  <body>
+    <form>
+      <div>
+        <input
+          list="pokemon"
+          type="search"
+          id="site-search"
+          name="q"
+          placeholder="Rechercher pokemon…"
+        />
+        <button>Rechercher</button>
+        <datalist id="pokemon">
+          <option value="Pikachu"></option>
+          <option value="Abra"></option>
+          <option value="Rapasdepic"></option>
+          <option value="Salameche"></option>
+          <option value="Bulbizarre"></option>
+        </datalist>
+      </div>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">Pokedex</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <img src="pikachu.jpg" alt="Pikachu" />
+          </td>
+          <td>pikachu</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
