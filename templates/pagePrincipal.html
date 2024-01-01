@@ -30,6 +30,7 @@
     <h1>Pokemon en recommandation</h1>
       <ul>
         {% for pokemon in recommendations %}
+        <p>Id : {{pokemon.pokedexId}}</p>
         <li>
           <a href="{{url_for('pokemon_details', pokemon_id=pokemon.pokedexId)}}">
             <img src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
