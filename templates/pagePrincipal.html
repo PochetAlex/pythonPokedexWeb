@@ -6,25 +6,29 @@
     <link href="../static/pagePrincipale.css" rel="stylesheet" />
   </head>
   <body>
-    <form>
-      <div class="searchBox">
-        <input class="searchInput"
-          list="pokemon"
-          type="search"
-          id="site-search"
-          name="q"
-          placeholder="Rechercher pokemon…"
-        />
-        <button class="searchButton"><img src="../static/pokeball.png" alt="" /></button>
-        <datalist id="pokemon">
-          <option value="Pikachu"></option>
-          <option value="Abra"></option>
-          <option value="Rapasdepic"></option>
-          <option value="Salameche"></option>
-          <option value="Bulbizarre"></option>
-        </datalist>
-      </div>
+    {% if form %}
+    <form method="POST" action="">
+        <div class="searchBox">
+            <input
+                    class="searchInput"
+                list="pokemon"
+                type="search"
+                id="autocomplete_input"
+                name="autocomplete_input"
+                placeholder="Rechercher pokemon…"
+                autocomplete="on"
+            />
+            <datalist id="pokemon">
+                {% for row in lesNomsDesPokemons %}
+                <option value="{{ row }}"></option>
+                {% endfor %}
+            </datalist>
+        </div>
+        <button class="searchButton" type="submit"><img src="../static/pokeball.png" alt="" /></button>
     </form>
+    {% endif %}
+
+    <button><a href="{{ url_for('collection') }}">Collection</a></button>
 
     <!-- Pokemon en recommandation code : -->
     <h1>Pokemon en recommandation</h1>

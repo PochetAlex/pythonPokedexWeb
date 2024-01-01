@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Ma Collection</title>
+</head>
+<body>
+    <h1>Ma Collection</h1>
+    <ul>
+        {% for pokemon in collection %}
+        <li>
+            <p>ID: {{ pokemon.id }}</p>
+            <p>Nom: {{ pokemon.name }}</p>
+            <img src="{{ pokemon.sprites.regular }}" alt="image de pokemon" />
+            <p>Stats:</p>
+            <ul>
+                {% for stat, value in pokemon.stats.items() %}
+                    <li>{{ stat }}: {{ value }}</li>
+                {% endfor %}
+            </ul>
+            <p>Résistances:</p>
+            <ul>
+                {% for resistance in pokemon.resistance %}
+                    <li>{{ resistance.name }}: {{ resistance.multiplier }}</li>
+                {% endfor %}
+            </ul>
+            <form method="post" action="{{ url_for('remove_from_collection', pokemon_id=pokemon.id) }}">
+                <button type="submit">Supprimer de la collection</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
