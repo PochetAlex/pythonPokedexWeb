@@ -9,6 +9,8 @@
 <body>
     <h1>Détails du Pokémon</h1>
 
+    <img src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
+
     <ul>
         <p>Nom en Francais : {{ pokemon.name['fr']|safe }}</p>
         <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
