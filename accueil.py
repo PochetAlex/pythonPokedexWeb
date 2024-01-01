@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 import requests
 import random
+
 
 app = Flask(__name__)
 
@@ -44,6 +45,40 @@ def pokemon_details(pokemon_id):
     pokemon_details = response.json()
 
     return render_template('pokemon_details.html', pokemon=pokemon_details)
+
+
+collection_data = []
+
+#Page pour afficher la collection
+@app.route('/collection')
+def collection():
+    return render_template('collection.html', collection=collection_data)
+
+@app.route('/add_to_collection/<int:pokemon_id>', methods=['POST'])
+def add_to_collection(pokemon_id):
+    global collection_data
+
+    response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{pokemon_id}")
+    pokemon_details = response.json()
+
+    if pokemon_id not in [item['id'] for item in collection_data]:
+        collection_data.append({
+            "id": pokemon_id,
+            "name": pokemon_details['name']['fr'],
+            "sprites": pokemon_details['sprites'],
+            "stats": pokemon_details['stats'],
+            "resistance": pokemon_details['resistances']
+        })
+
+    return redirect(url_for('home'))
+
+@app.route('/remove_from_collection/<int:pokemon_id>', methods=['POST'])
+def remove_from_collection(pokemon_id):
+    global collection_data
+
+    collection_data = [pokemon for pokemon in collection_data if pokemon['id'] != pokemon_id]
+
+    return redirect(url_for('collection'))
 
 if __name__ == '__main__':
     app.run(debug=True)
