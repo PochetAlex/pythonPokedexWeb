@@ -5,9 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails Pokémon</title>
-    <link href="../static/pagePrincipale.css" rel="stylesheet" />
+    <link href="../static/details.css" rel="stylesheet" />
 </head>
 <body>
+<header>
+
+    <button class ="colection"><a href="{{ url_for('collection') }}">Collection</a></button>
+    <button class ="colection"><a href="{{ url_for('home') }}">Accueil</a></button>
+</header>
+
+<section>
     <h1>Détails du Pokémon</h1>
 
     <img src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
@@ -51,6 +58,9 @@
     <form method="get" action="{{ url_for('home') }}">
         <button type="submit">Retour à la page d'accueil</button>
     </form>
+</section>
+
+
 
 </body>
 </html>

@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8" />
     <title>Ma Collection</title>
-    <link href="../static/pagePrincipale.css" rel="stylesheet" />
+    <link href="../static/collection.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Ma Collection</h1>
+  <header>
+
+    <button class ="collectionButton"><a href="{{ url_for('home') }}">Accueil</a></button>
+
+  </header>
+
+  <section>
+      <h1>Ma Collection</h1>
 
         {% for pokemon in collection %}<ul>
         <li>
+            <img src="{{ pokemon.sprites.regular }}" alt="image de pokemon" />
             <p>ID: {{ pokemon.id }}</p>
             <p>Nom: {{ pokemon.name }}</p>
-            <img src="{{ pokemon.sprites.regular }}" alt="image de pokemon" />
+
             <p>Stats:</p>
             <ul>
                 {% for stat, value in pokemon.stats.items() %}
@@ -30,6 +38,8 @@
             </form>
         </li></ul>
         {% endfor %}
+  </section>
+
 
 </body>
 </html>
