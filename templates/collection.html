@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <title>Ma Collection</title>
+    <link href="../static/pagePrincipale.css" rel="stylesheet" />
 </head>
 <body>
     <h1>Ma Collection</h1>
-    <ul>
-        {% for pokemon in collection %}
+
+        {% for pokemon in collection %}<ul>
         <li>
             <p>ID: {{ pokemon.id }}</p>
             <p>Nom: {{ pokemon.name }}</p>
@@ -27,8 +28,8 @@
             <form method="post" action="{{ url_for('remove_from_collection', pokemon_id=pokemon.id) }}">
                 <button type="submit">Supprimer de la collection</button>
             </form>
-        </li>
+        </li></ul>
         {% endfor %}
-    </ul>
+
 </body>
 </html>

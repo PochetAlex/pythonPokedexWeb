@@ -5,8 +5,10 @@
     <title>Pokedex</title>
     <link href="../static/pagePrincipale.css" rel="stylesheet" />
   </head>
+
   <body>
-    {% if form %}
+  <header>
+       {% if form %}
     <form method="POST" action="">
         <div class="searchBox">
             <input
@@ -22,15 +24,17 @@
                 {% for row in lesNomsDesPokemons %}
                 <option value="{{ row }}"></option>
                 {% endfor %}
-            </datalist>
+            </datalist><button class="searchButton" type="submit"><img src="../static/pokeball.png" alt="" /></button>
         </div>
-        <button class="searchButton" type="submit"><img src="../static/pokeball.png" alt="" /></button>
-    </form>
+        </form>
     {% endif %}
 
-    <button><a href="{{ url_for('collection') }}">Collection</a></button>
+    <button class ="colection"><a href="{{ url_for('collection') }}">Collection</a></button>
 
-    <!-- Pokemon en recommandation code : -->
+  </header>
+
+  <section>
+      <!-- Pokemon en recommandation code : -->
     <h1>Pokemon en recommandation</h1>
 
         {% for pokemon in recommendations %}
@@ -49,6 +53,6 @@
         {% endfor %}
 
     <!-- Fin du code de recommandation -->
-
+  </section>
   </body>
 </html>

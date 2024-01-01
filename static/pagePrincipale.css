@@ -7,7 +7,16 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  background-image: url("fond2.webp");
+  background-image: url("pokedex-background.png");
+}
+
+header{
+  width: 100%;
+  height: 25%;
+  position: fixed;
+  background-image: url("header.png");
+  margin-top: -12%;
+  margin-bottom: 150px;
 }
 
 img {
@@ -16,7 +25,7 @@ img {
 
 .searchBox {
   position: relative;
-  top: -1%;
+  margin-top: 1.5%;
   left: 50%;
   transform:  translate(-50%,50%);
   background: white;
@@ -49,7 +58,6 @@ color : black;
   justify-content: center;
   align-items: center;
   transition: 0.4s;
-
 }
 
 .searchInput {
@@ -75,4 +83,19 @@ ul{
   display: flex;
   gap: 40px;
   align-items: center;
+}
+
+.colection{
+  margin-left: 90%;
+  bottom: 12%;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 24px;
+  border-style: none;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  height: 48px;
+  padding: 2px 24px;
+  position: relative;
+  width: auto;
+  text-decoration:none;
 }
