@@ -3,19 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <title>Pokedex</title>
-    <link href="pagePrincipale.css" rel="stylesheet" />
+    <link href="../static/pagePrincipale.css" rel="stylesheet" />
   </head>
   <body>
     <form>
-      <div>
-        <input
+      <div class="searchBox">
+        <input class="searchInput"
           list="pokemon"
           type="search"
           id="site-search"
           name="q"
           placeholder="Rechercher pokemon…"
         />
-        <button>Rechercher</button>
+        <button class="searchButton"><img src="../static/pokeball.png" alt="" /></button>
         <datalist id="pokemon">
           <option value="Pikachu"></option>
           <option value="Abra"></option>
@@ -28,10 +28,11 @@
 
     <!-- Pokemon en recommandation code : -->
     <h1>Pokemon en recommandation</h1>
-      <ul>
+
         {% for pokemon in recommendations %}
+            <ul>
         <p>Id : {{pokemon.pokedexId}}</p>
-        <li>
+
           <a href="{{url_for('pokemon_details', pokemon_id=pokemon.pokedexId)}}">
             <img src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
           </a>
@@ -40,9 +41,9 @@
             <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
             <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
           </ul>
-        </li>
+        </ul>
         {% endfor %}
-      </ul>
+
     <!-- Fin du code de recommandation -->
 
   </body>
