@@ -1,9 +1,16 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 import requests
 import random
+from flask_wtf import FlaskForm
+from wtforms.fields.simple import StringField
+from wtforms.validators import DataRequired
 
 
 app = Flask(__name__)
+app.secret_key = "ne pas partager"
+
+class PokemonForm(FlaskForm):
+    autocomplete_input = StringField('autocomplete_input', validators=[DataRequired()])
 
 def get_detailed_pokemons(pokemon_ids):
     detailed_pokemons = []
@@ -17,10 +24,24 @@ def get_detailed_pokemons(pokemon_ids):
     return detailed_pokemons
 
 # Page d'accueil
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
     response = requests.get("https://api-pokemon-fr.vercel.app/api/v1/pokemon")
     data = response.json()
+
+    pokemon_form = PokemonForm()
+    lesNomsDesPokemons= []
+    for i in range(1, len(data)):
+        lesNomsDesPokemons.append(data[i]['name']['fr'])
+
+    if request.method == 'POST':
+        pokemon_nom = request.form['autocomplete_input']  # Récupérer le nom du Pokémon depuis le formulaire
+        pokemon_id=get_pokemon_id_by_name(pokemon_nom)
+        if pokemon_id==None:
+            print("Ce pokemon n'existe pas.")
+            return []
+        return redirect(url_for('pokemon_details', pokemon_id=pokemon_id))  # Remplace 1 par l'ID du Pokémon trouvé
+
 
     if isinstance(data, list):
         selected_pokemons_main = random.sample(data, 6)
@@ -31,7 +52,8 @@ def home():
 
         detailed_pokemons_recommendation = get_detailed_pokemons([pokemon['pokedexId'] for pokemon in selected_pokemons_recommendation])
 
-        return render_template('pagePrincipal.html', pokemons=detailed_pokemons_main, recommendations=detailed_pokemons_recommendation)
+        return render_template('pagePrincipal.html', form=pokemon_form, lesNomsDesPokemons=lesNomsDesPokemons
+                               , pokemons=detailed_pokemons_main, recommendations=detailed_pokemons_recommendation)
     else:
         print("La structure de la réponse API est inattendue.")
         return []
@@ -79,6 +101,16 @@ def remove_from_collection(pokemon_id):
     collection_data = [pokemon for pokemon in collection_data if pokemon['id'] != pokemon_id]
 
     return redirect(url_for('collection'))
+
+def get_pokemon_id_by_name(pokemon_name):
+    response = requests.get("https://api-pokemon-fr.vercel.app/api/v1/pokemon")
+    data = response.json()
+
+    for pokemon in data:
+        if pokemon['name']['fr'] == pokemon_name:
+            return pokemon['pokedexId']
+
+    return None
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -6,25 +6,26 @@
     <link href="pagePrincipale.css" rel="stylesheet" />
   </head>
   <body>
-    <form>
-      <div>
-        <input
-          list="pokemon"
-          type="search"
-          id="site-search"
-          name="q"
-          placeholder="Rechercher pokemon…"
-        />
-        <button>Rechercher</button>
-        <datalist id="pokemon">
-          <option value="Pikachu"></option>
-          <option value="Abra"></option>
-          <option value="Rapasdepic"></option>
-          <option value="Salameche"></option>
-          <option value="Bulbizarre"></option>
-        </datalist>
-      </div>
+    {% if form %}
+    <form method="POST" action="">
+        <div>
+            <input
+                list="pokemon"
+                type="search"
+                id="autocomplete_input"
+                name="autocomplete_input"
+                placeholder="Rechercher pokemon…"
+                autocomplete="on"
+            />
+            <datalist id="pokemon">
+                {% for row in lesNomsDesPokemons %}
+                <option value="{{ row }}"></option>
+                {% endfor %}
+            </datalist>
+        </div>
+        <button type="submit">Rechercher</button>
     </form>
+    {% endif %}
 
     <button><a href="{{ url_for('collection') }}">Collection</a></button>
 
