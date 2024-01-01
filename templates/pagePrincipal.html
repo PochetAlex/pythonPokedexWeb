@@ -25,20 +25,24 @@
         </datalist>
       </div>
     </form>
-    <table>
-      <thead>
-        <tr>
-          <th colspan="2">Pokedex</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <img src="pikachu.jpg" alt="Pikachu" />
-          </td>
-          <td>pikachu</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <!-- Pokemon en recommandation code : -->
+    <h1>Pokemon en recommandation</h1>
+      <ul>
+        {% for pokemon in recommendations %}
+        <li>
+          <a href="{{url_for('pokemon_details', pokemon_id=pokemon.pokedexId)}}">
+            <img src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
+          </a>
+          <ul>
+            <p>Nom en Francais : {{ pokemon.name['fr']|safe }}</p>
+            <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
+            <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    <!-- Fin du code de recommandation -->
+
   </body>
 </html>
