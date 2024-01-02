@@ -32,9 +32,28 @@
 
     <button class ="colection"><a href="{{ url_for('collection') }}">Collection</a></button>
 
+  <div>
+      <form method="GET" action="{{ url_for('home') }}">
+        <label for="type_select">Choisir un type :</label>
+        <select name="type_select" id="type_select">
+            {% for row in types %}
+                {% if request.args.get('type_select') == row %}
+                    <option value="{{ row }}" selected>{{ row }}</option>
+                {% else %}
+                    <option value="{{ row }}">{{ row }}</option>
+                {% endif %}
+            {% endfor %}
+            <option value="tous">Tous</option>
+        </select>
+        <button type="submit">Trier</button>
+      </form>
+  </div>
+
   </header>
 
+
   <section>
+
       <!-- Pokemon en recommandation code : -->
     <h1>Votre recommandation de pokemon</h1>
 
@@ -59,5 +78,6 @@
 
     <!-- Fin du code de recommandation -->
   </section>
+
   </body>
 </html>
