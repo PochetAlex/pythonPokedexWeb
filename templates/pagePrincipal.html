@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Pokedex</title>
     <link href="../static/pagePrincipale.css" rel="stylesheet" />
+      <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
   </head>
 
   <body>
@@ -35,21 +36,25 @@
 
   <section>
       <!-- Pokemon en recommandation code : -->
-    <h1>Pokemon en recommandation</h1>
+    <h1>Votre recommandation de pokemon</h1>
 
         {% for pokemon in recommendations %}
-            <ul>
+            <a href="{{url_for('pokemon_details', pokemon_id=pokemon.pokedexId)}}">
+            <ul class="description">
+                <div class="divPoke"><img class="imagePokeball" src="../static/pokeball.png">
+                    <img class="imagePokemon" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
+
+                    </div>
+
         <p>Id : {{pokemon.pokedexId}}</p>
 
-          <a href="{{url_for('pokemon_details', pokemon_id=pokemon.pokedexId)}}">
-            <img src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
-          </a>
-          <ul>
+          <ul class="nomPoke">
             <p>Nom en Francais : {{ pokemon.name['fr']|safe }}</p>
             <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
             <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
           </ul>
         </ul>
+            </a>
         {% endfor %}
 
     <!-- Fin du code de recommandation -->

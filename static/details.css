@@ -7,7 +7,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  background-image: url("pokedex-background.png");
+  background-image: url("testfonddetail.png");
 }
 
 header{
@@ -21,24 +21,29 @@ header{
   gap: 40px;
 }
 
-img {
-  width: 50px;
+.imgPoke {
+  width: 150px;
+  margin-left: 15%;
 }
 
 h1{
   margin-top: 12%;
-  margin-left: 2%;
+  margin-left: 55%;
+  font-family: 'Pokemon Solid', sans-serif;
+  font-size: 40px;
+  color: #2f3640;
 }
 
-ul{
-  background: white;
+.pokemon{
+  margin-top: -1%;
+  margin-left: 25%;
+  position: absolute;
   display: flex;
-  gap: 40px;
-  align-items: center;
+  flex-direction: column;
 }
 
 .colection{
-    left: 45%;
+  left: 45%;
   top: 32%;
   align-items: center;
   background-color: #fff;
@@ -52,6 +57,60 @@ ul{
   text-decoration:none;
 }
 
-section{
-    background: white;
+.text1{
+  margin-left: 40%;
+}
+
+.text2{
+  margin-top: -10%;
+  margin-left: -7%;
+}
+
+.details{
+  margin-top: 2%;
+  margin-left: 50%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  text-decoration:none;
+}
+
+.stats{
+display: flex;
+  position: fixed;
+  text-decoration:none;
+  margin-left: 25%;
+  margin-top: 4%;
+  flex-direction: column;
+}
+
+.type{
+  display: flex;
+  align-items: center;
+  position: fixed;
+  text-decoration:none;
+  margin-left: -3%;
+  margin-top: 3%;
+}
+
+.resistance{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  list-style  : none;
+  margin-left: -8.5%;
+  margin-top: -1%;
+}
+
+.imgType{
+  width: 40%;
+}
+
+.titreStat{
+  position: absolute;
+  margin-left: 47%;
+}
+
+.titreResist{
+  margin-top: 15%;
 }

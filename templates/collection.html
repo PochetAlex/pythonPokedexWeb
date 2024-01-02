@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Ma Collection</title>
     <link href="../static/collection.css" rel="stylesheet" />
+    <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -15,28 +16,21 @@
   <section>
       <h1>Ma Collection</h1>
 
-        {% for pokemon in collection %}<ul>
-        <li>
-            <img src="{{ pokemon.sprites.regular }}" alt="image de pokemon" />
+        {% for pokemon in collection %}
+
+            <ul><a href="{{url_for('pokemon_details', pokemon_id=pokemon.id)}}"><li>
+            <div class="divPoke"><img class="imagePokeball" src="../static/pokeball.png">
+                    <img class="imagePokemon" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
+
+                    </div>
             <p>ID: {{ pokemon.id }}</p>
             <p>Nom: {{ pokemon.name }}</p>
 
-            <p>Stats:</p>
-            <ul>
-                {% for stat, value in pokemon.stats.items() %}
-                    <li>{{ stat }}: {{ value }}</li>
-                {% endfor %}
-            </ul>
-            <p>Résistances:</p>
-            <ul>
-                {% for resistance in pokemon.resistance %}
-                    <li>{{ resistance.name }}: {{ resistance.multiplier }}</li>
-                {% endfor %}
-            </ul>
-            <form method="post" action="{{ url_for('remove_from_collection', pokemon_id=pokemon.id) }}">
-                <button type="submit">Supprimer de la collection</button>
+
+                 </li></a><form method="post" action="{{ url_for('remove_from_collection', pokemon_id=pokemon.id) }}">
+                <button class ="colection" type="submit">Supprimer de la collection</button>
             </form>
-        </li></ul>
+        </ul>
         {% endfor %}
   </section>
 

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails Pokémon</title>
     <link href="../static/details.css" rel="stylesheet" />
+      <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
 </head>
 <body>
 <header>
@@ -15,49 +16,52 @@
 </header>
 
 <section>
-    <h1>Détails du Pokémon</h1>
+<h1>Détails du Pokémon</h1>
 
-    <img src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
+<div class="pokemon">
 
-    <ul>
+
+    <img class="imgPoke" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
+    <p class="text1">Id: {{ pokemon.pokedexId }}</p>
+    <ul class="text2">
         <p>Nom en Francais : {{ pokemon.name['fr']|safe }}</p>
         <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
         <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
     </ul>
-    <p>Identifiant: {{ pokemon.pokedexId }}</p>
 
+</div>
+
+<div class="details">
     <h2>Types</h2>
-    <ul>
+    <ul class="type">
         {% for poke_type in pokemon.types %}
-            <li>{{ poke_type.name }}: <img src="{{poke_type.image}}" alt="image du type du pokemon" /> </li>
+            <p>{{ poke_type.name }}: <img class="imgType" src="{{poke_type.image}}" alt="image du type du pokemon" /> </p>
         {% endfor %}
     </ul>
 
-    <h2>Statistiques</h2>
-    <ul>
+    <h2 class="titreStat">Statistiques</h2>
+    <ul class="stats">
         {% for stat, value in pokemon.stats.items() %}
             <li>{{ stat }}: {{ value }}</li>
         {% endfor %}
     </ul>
 
-    <h2>Résistances</h2>
-    <ul>
+    <h2 class="titreResist">Résistances</h2>
+    <ul class="resistance">
         {% if pokemon.resistances %}
             {% for resistance in pokemon.resistances %}
-                <li>{{ resistance.name }}: {{ resistance.multiplier }}</li>
+                <li>{{ resistance.name }} {{ resistance.multiplier }}</li>
             {% endfor %}
         {% else %}
             <li>Aucune résistance</li>
         {% endif %}
     </ul>
+</div>
 
     <form method="post" action="{{ url_for('add_to_collection', pokemon_id=pokemon.pokedexId) }}">
         <button type="submit">Ajouter à la collection</button>
     </form>
 
-    <form method="get" action="{{ url_for('home') }}">
-        <button type="submit">Retour à la page d'accueil</button>
-    </form>
 </section>
 
 

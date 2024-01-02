@@ -13,7 +13,7 @@ body {
 header{
   width: 100%;
   height: 25%;
-  position: fixed;
+  position: absolute;
   background-image: url("header.png");
   margin-top: -12%;
   margin-bottom: 150px;
@@ -73,16 +73,30 @@ color : black;
 }
 
 h1{
-  position: relative;
   margin-top: 12%;
-  margin-left: 2%;
+  margin-left: 26%;
+  font-family: 'Pokemon Solid', sans-serif;
+  font-size: 40px;
+  color: #2f3640;
 }
 
-ul{
-  background: white;
-  display: flex;
-  gap: 40px;
+a{
+  text-decoration : none;
   align-items: center;
+  color: black;
+}
+
+
+
+.imagePokemon, .imagePokeball{
+  position: absolute;
+  width: 70px;
+}
+
+.divPoke{
+  display: flex;
+  align-items: center;
+  margin-right: 10%;
 }
 
 .colection{
@@ -98,4 +112,22 @@ ul{
   position: relative;
   width: auto;
   text-decoration:none;
+}
+
+.description{
+  height: 80px;
+  display: flex;
+  gap: 60px;
+  margin-bottom: 20px;
+  background: white;
+  margin-left: 10%;
+  margin-right: 10%;
+  align-items: center;
+  border-radius: 30px;
+}
+
+.nomPoke{
+  gap: 60px;
+  display: flex;
+  align-items: center;
 }
