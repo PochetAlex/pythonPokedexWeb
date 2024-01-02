@@ -9,30 +9,31 @@ from wtforms.validators import DataRequired
 app = Flask(__name__)
 app.secret_key = "ne pas partager"
 
+response = requests.get("https://api-pokemon-fr.vercel.app/api/v1/pokemon")
+data = response.json()
+
 class PokemonForm(FlaskForm):
     autocomplete_input = StringField('autocomplete_input', validators=[DataRequired()])
-
-def get_detailed_pokemons(pokemon_ids):
-    detailed_pokemons = []
-
-    for pokemon_id in pokemon_ids:
-        response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{pokemon_id}")
-        pokemon_details = response.json()
-
-        detailed_pokemons.append(pokemon_details)
-
-    return detailed_pokemons
 
 # Page d'accueil
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    response = requests.get("https://api-pokemon-fr.vercel.app/api/v1/pokemon")
-    data = response.json()
+
 
     pokemon_form = PokemonForm()
     lesNomsDesPokemons= []
     for i in range(1, len(data)):
         lesNomsDesPokemons.append(data[i]['name']['fr'])
+    types = get_tout_les_types()
+
+    if request.args.get('type_select'):
+        if request.args.get('type_select') == 'tous':
+            pass
+        else:
+            detailed_pokemons_recommendation = get_pokemon_par_type(request.args.get('type_select'))
+            return render_template('pagePrincipal.html', form=pokemon_form, lesNomsDesPokemons=lesNomsDesPokemons,
+                                   recommendations=detailed_pokemons_recommendation, types=types)
+
 
     if request.method == 'POST':
         pokemon_nom = request.form['autocomplete_input']  # Récupérer le nom du Pokémon depuis le formulaire
@@ -44,16 +45,11 @@ def home():
 
 
     if isinstance(data, list):
-        selected_pokemons_main = random.sample(data, 6)
 
-        detailed_pokemons_main = get_detailed_pokemons([pokemon['pokedexId'] for pokemon in selected_pokemons_main])
+        detailed_pokemons_recommendation = get_pokemon_avec_nombre(15555555)
 
-        selected_pokemons_recommendation = random.sample(data, 6)
-
-        detailed_pokemons_recommendation = get_detailed_pokemons([pokemon['pokedexId'] for pokemon in selected_pokemons_recommendation])
-
-        return render_template('pagePrincipal.html', form=pokemon_form, lesNomsDesPokemons=lesNomsDesPokemons
-                               , pokemons=detailed_pokemons_main, recommendations=detailed_pokemons_recommendation)
+        return render_template('pagePrincipal.html', form=pokemon_form, lesNomsDesPokemons=lesNomsDesPokemons,
+                               recommendations=detailed_pokemons_recommendation, types=types)
     else:
         print("La structure de la réponse API est inattendue.")
         return []
@@ -103,14 +99,41 @@ def remove_from_collection(pokemon_id):
     return redirect(url_for('collection'))
 
 def get_pokemon_id_by_name(pokemon_name):
-    response = requests.get("https://api-pokemon-fr.vercel.app/api/v1/pokemon")
-    data = response.json()
-
     for pokemon in data:
         if pokemon['name']['fr'] == pokemon_name:
             return pokemon['pokedexId']
 
     return None
+
+def get_pokemon_par_type(type):
+    resultat = []
+    for pokemon in data:
+        if pokemon['types']:
+            for pokemon_type in pokemon['types']:
+                if pokemon_type['name'].lower() == type.lower():
+                    resultat.append(pokemon)
+    return resultat
+
+def get_pokemon_avec_nombre(nb):
+    resultat = []
+
+    nb = min(nb, len(data))
+    for pokemon in range(1, nb):
+        resultat.append(data[pokemon])
+
+    return resultat
+
+def get_tout_les_types():
+    types_set = set()
+
+    for pokemon in data:
+        if pokemon['types']:
+            for pokemon_type in pokemon['types']:
+                types_set.add(pokemon_type['name'])
+
+    tous_les_types = list(types_set)
+    return tous_les_types
+
 
 if __name__ == '__main__':
     app.run(debug=True)
