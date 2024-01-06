@@ -14,7 +14,7 @@ header{
   width: 100%;
   height: 25%;
   position: absolute;
-  background-image: url("header.png");
+  background: url("header.png") no-repeat;
   margin-top: -12%;
   margin-bottom: 150px;
 }
@@ -130,4 +130,12 @@ a{
   gap: 60px;
   display: flex;
   align-items: center;
+}
+
+.type{
+  margin-left: 40%;
+  margin-top: 5px;
+  width: 250px;
+  background: white;
+  border-radius: 10px;
 }
