@@ -30,7 +30,13 @@
         </form>
     {% endif %}
 
-    <button class ="colection"><a href="{{ url_for('collection') }}">Collection</a></button>
+    {% if current_user.is_authenticated %}
+    <button class="collection"><a href="{{ url_for('collection') }}">Collection</a></button>
+    <button class="logout"><a href="{{ url_for('logout') }}">Logout</a></button>
+    {% else %}
+        <button class="login"><a href="{{ url_for('login') }}">Login</a></button>
+        <button class="register"><a href="{{ url_for('register') }}">Register</a></button>
+    {% endif %}
 
   <div class="type">
       <form method="GET" action="{{ url_for('home') }}">

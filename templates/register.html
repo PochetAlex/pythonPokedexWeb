@@ -1,0 +1,19 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <label for="username">Username:</label>
+        {{ form.username(size=20) }}
+        <label for="password">Password:</label>
+        {{ form.password(size=20) }}
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
