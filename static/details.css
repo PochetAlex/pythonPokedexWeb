@@ -12,13 +12,11 @@ body {
 
 header{
   width: 100%;
-  height: 25%;
-  position: fixed;
-  background-image: url("header.png");
+  height: 20%;
+  position: absolute;
+  background: url("header.png") center/cover no-repeat;
   margin-top: -12%;
   margin-bottom: 150px;
-  display: flex;
-  gap: 40px;
 }
 
 .imgPoke {

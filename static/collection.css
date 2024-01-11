@@ -12,7 +12,7 @@ body {
 
 header{
   width: 100%;
-  height: 25%;
+  height: 18%;
   position: fixed;
   background-image: url("header.png");
   margin-top: -12%;
@@ -83,6 +83,7 @@ a{
   width: 160px;
   cursor: pointer;
   margin-right: 5%;
+  border: 1px solid black;
 }
 
 ul{

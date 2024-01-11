@@ -9,29 +9,28 @@
 
   <body>
   <header>
-       {% if form %}
-    <form method="POST" action="">
-        <div class="searchBox">
-            <input
-                    class="searchInput"
-                list="pokemon"
-                type="search"
-                id="autocomplete_input"
-                name="autocomplete_input"
-                placeholder="Rechercher pokemon…"
-                autocomplete="on"
-            />
-            <datalist id="pokemon">
-                {% for row in lesNomsDesPokemons %}
-                <option value="{{ row }}"></option>
-                {% endfor %}
-            </datalist><button class="searchButton" type="submit"><img src="../static/pokeball.png" alt="" /></button>
-        </div>
+      <div class="ok">
+           {% if form %}
+        <form method="POST" action="">
+            <div class="searchBox">
+                <input class="searchInput"
+                    list="pokemon"
+                    type="search"
+                    id="autocomplete_input"
+                    name="autocomplete_input"
+                    placeholder="Rechercher pokemon…"
+                    autocomplete="on"
+                />
+                <datalist id="pokemon">
+                    {% for row in lesNomsDesPokemons %}
+                    <option value="{{ row }}"></option>
+                    {% endfor %}
+                </datalist><button class="searchButton" type="submit"><img src="../static/pokeball.png" alt="" /></button>
+            </div>
         </form>
-    {% endif %}
-
-    <button class ="colection"><a href="{{ url_for('collection') }}">Collection</a></button>
-
+        {% endif %}
+          <button class ="colection"><a href="{{ url_for('collection') }}">Collection</a></button>
+      </div>
   <div class="type">
       <form method="GET" action="{{ url_for('home') }}">
         <label for="type_select">Choisir un type :</label>
