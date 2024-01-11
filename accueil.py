@@ -30,9 +30,18 @@ def home():
         if request.args.get('type_select') == 'tous':
             pass
         else:
-            detailed_pokemons_recommendation = get_pokemon_par_type(request.args.get('type_select'))
-            return render_template('pagePrincipal.html', form=pokemon_form, lesNomsDesPokemons=lesNomsDesPokemons,
-                                   recommendations=detailed_pokemons_recommendation, types=types)
+            if request.method == 'POST':
+                pokemon_nom = request.form['autocomplete_input']  # Récupérer le nom du Pokémon depuis le formulaire
+                pokemon_id = get_pokemon_id_by_name(pokemon_nom)
+                if pokemon_id == None:
+                    print("Ce pokemon n'existe pas.")
+                    return []
+                return redirect(
+                    url_for('pokemon_details', pokemon_id=pokemon_id))  # Remplace 1 par l'ID du Pokémon trouvé
+            else:
+                detailed_pokemons_recommendation = get_pokemon_par_type(request.args.get('type_select'))
+                return render_template('pagePrincipal.html', form=pokemon_form, lesNomsDesPokemons=lesNomsDesPokemons,
+                                       recommendations=detailed_pokemons_recommendation, types=types)
 
 
     if request.method == 'POST':
