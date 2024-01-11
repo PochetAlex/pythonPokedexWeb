@@ -1,6 +1,9 @@
 from flask import Flask, render_template, redirect, url_for, request
 import requests
 import random
+
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import requests
 from flask_wtf import FlaskForm
 from wtforms.fields.simple import StringField
 from wtforms.validators import DataRequired
@@ -8,6 +11,31 @@ from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.secret_key = "ne pas partager"
+
+response = requests.get("https://api-pokemon-fr.vercel.app/api/v1/pokemon")
+data = response.json()
+
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+class User(UserMixin):
+    def __init__(self, user_id, username, password):
+        self.id = user_id
+        self.username = username
+        self.password = password
+        self.collection_data = []
+
+users = {
+    1: User(1, 'username', 'password'),
+}
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = StringField('Password', validators=[DataRequired()])
+
+@login_manager.user_loader
+def load_user(user_id):
+    return users.get(int(user_id))
 
 response = requests.get("https://api-pokemon-fr.vercel.app/api/v1/pokemon")
 data = response.json()
@@ -65,22 +93,21 @@ def pokemon_details(pokemon_id):
     return render_template('pokemon_details.html', pokemon=pokemon_details)
 
 
-collection_data = []
-
 #Page pour afficher la collection
 @app.route('/collection')
+@login_required
 def collection():
-    return render_template('collection.html', collection=collection_data)
+    user_collection = current_user.collection_data
+    return render_template('collection.html', collection=user_collection)
 
 @app.route('/add_to_collection/<int:pokemon_id>', methods=['POST'])
+@login_required
 def add_to_collection(pokemon_id):
-    global collection_data
-
     response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{pokemon_id}")
     pokemon_details = response.json()
 
-    if pokemon_id not in [item['id'] for item in collection_data]:
-        collection_data.append({
+    if pokemon_id not in [item['id'] for item in current_user.collection_data]:
+        current_user.collection_data.append({
             "id": pokemon_id,
             "name": pokemon_details['name']['fr'],
             "sprites": pokemon_details['sprites'],
@@ -91,11 +118,9 @@ def add_to_collection(pokemon_id):
     return redirect(url_for('home'))
 
 @app.route('/remove_from_collection/<int:pokemon_id>', methods=['POST'])
+@login_required
 def remove_from_collection(pokemon_id):
-    global collection_data
-
-    collection_data = [pokemon for pokemon in collection_data if pokemon['id'] != pokemon_id]
-
+    current_user.collection_data = [pokemon for pokemon in current_user.collection_data if pokemon['id'] != pokemon_id]
     return redirect(url_for('collection'))
 
 def get_pokemon_id_by_name(pokemon_name):
@@ -134,6 +159,43 @@ def get_tout_les_types():
     tous_les_types = list(types_set)
     return tous_les_types
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = next((user for user in users.values() if user.username == username and user.password == password), None)
+        if user:
+            login_user(user)
+            return redirect(url_for('home'))
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    registration_form = RegistrationForm()
+
+    if registration_form.validate_on_submit():
+        # Get username and password from the form
+        username = registration_form.username.data
+        password = registration_form.password.data
+
+        user_id = len(users) + 1
+
+        new_user = User(user_id, username, password)
+        new_user.collection_data = []
+        users[user_id] = new_user
+
+        login_user(new_user)
+
+        return redirect(url_for('home'))
+
+    return render_template('register.html', form=registration_form)
 
 if __name__ == '__main__':
     app.run(debug=True)
