@@ -97,9 +97,51 @@ def pokemon_details(pokemon_id):
     str_pokemon_id = str(pokemon_id)
 
     response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{str_pokemon_id}")
+
+
     pokemon_details = response.json()
 
-    return render_template('pokemon_details.html', pokemon=pokemon_details)
+    # Check if there are evolutions
+    if pokemon_details['evolution']:
+        evolutions = []
+
+        for evolution in pokemon_details['evolution']['pre']:
+            evolution_id = evolution['pokedexId']
+            evolution_condition = evolution['condition']
+
+            evolution_response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{evolution_id}")
+            evolution_details = evolution_response.json()
+
+            evolutions.append({
+                "id": evolution_id,
+                "name": evolution_details['name']['fr'],
+                "sprites": evolution_details['sprites']['shiny'],
+                "stats": evolution_details['stats'],
+                "resistance": evolution_details['resistances'],
+                "condition": evolution_condition
+            })
+
+        for evolution in pokemon_details['evolution']['next']:
+            evolution_id = evolution['pokedexId']
+            evolution_condition = evolution['condition']
+
+            evolution_response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{evolution_id}")
+            evolution_details = evolution_response.json()
+
+            evolutions.append({
+                "id": evolution_id,
+                "name": evolution_details['name']['fr'],
+                "sprites": evolution_details['sprites']['shiny'],
+                "stats": evolution_details['stats'],
+                "resistance": evolution_details['resistances'],
+                "condition": evolution_condition
+            })
+
+
+
+        return render_template('pokemon_details.html', pokemon=pokemon_details, evolutions=evolutions)
+    else:
+        return render_template('pokemon_details.html', pokemon=pokemon_details, evolutions=None)
 
 
 #Page pour afficher la collection
