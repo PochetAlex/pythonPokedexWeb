@@ -102,42 +102,40 @@ def pokemon_details(pokemon_id):
     pokemon_details = response.json()
 
     # Check if there are evolutions
-    if pokemon_details['evolution']:
+    if pokemon_details['evolution'] :
         evolutions = []
+        if pokemon_details['evolution'] ['pre'] is not None:
+            for evolution in pokemon_details['evolution']['pre']:
+                evolution_id = evolution['pokedexId']
+                evolution_condition = evolution['condition']
 
-        for evolution in pokemon_details['evolution']['pre']:
-            evolution_id = evolution['pokedexId']
-            evolution_condition = evolution['condition']
+                evolution_response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{evolution_id}")
+                evolution_details = evolution_response.json()
 
-            evolution_response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{evolution_id}")
-            evolution_details = evolution_response.json()
+                evolutions.append({
+                    "id": evolution_id,
+                    "name": evolution_details['name']['fr'],
+                    "sprites": evolution_details['sprites']['regular'],
+                    "stats": evolution_details['stats'],
+                    "resistance": evolution_details['resistances'],
+                    "condition": evolution_condition
+                })
+        if pokemon_details['evolution'] ['next'] is not None:
+            for evolution in pokemon_details['evolution']['next']:
+                evolution_id = evolution['pokedexId']
+                evolution_condition = evolution['condition']
 
-            evolutions.append({
-                "id": evolution_id,
-                "name": evolution_details['name']['fr'],
-                "sprites": evolution_details['sprites']['shiny'],
-                "stats": evolution_details['stats'],
-                "resistance": evolution_details['resistances'],
-                "condition": evolution_condition
-            })
+                evolution_response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{evolution_id}")
+                evolution_details = evolution_response.json()
 
-        for evolution in pokemon_details['evolution']['next']:
-            evolution_id = evolution['pokedexId']
-            evolution_condition = evolution['condition']
-
-            evolution_response = requests.get(f"https://api-pokemon-fr.vercel.app/api/v1/pokemon/{evolution_id}")
-            evolution_details = evolution_response.json()
-
-            evolutions.append({
-                "id": evolution_id,
-                "name": evolution_details['name']['fr'],
-                "sprites": evolution_details['sprites']['shiny'],
-                "stats": evolution_details['stats'],
-                "resistance": evolution_details['resistances'],
-                "condition": evolution_condition
-            })
-
-
+                evolutions.append({
+                    "id": evolution_id,
+                    "name": evolution_details['name']['fr'],
+                    "sprites": evolution_details['sprites']['regular'],
+                    "stats": evolution_details['stats'],
+                    "resistance": evolution_details['resistances'],
+                    "condition": evolution_condition
+                })
 
         return render_template('pokemon_details.html', pokemon=pokemon_details, evolutions=evolutions)
     else:

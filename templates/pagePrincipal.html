@@ -6,84 +6,73 @@
     <link href="../static/pagePrincipale.css" rel="stylesheet" />
       <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
   </head>
-
   <body>
-  <header>
-       {% if form %}
-    <form method="POST" action="">
-        <div class="searchBox">
-            <input
-                    class="searchInput"
-                list="pokemon"
-                type="search"
-                id="autocomplete_input"
-                name="autocomplete_input"
-                placeholder="Rechercher pokemon…"
-                autocomplete="on"
-            />
-            <datalist id="pokemon">
-                {% for row in lesNomsDesPokemons %}
-                <option value="{{ row }}"></option>
-                {% endfor %}
-            </datalist><button class="searchButton" type="submit"><img src="../static/pokeball.png" alt="" /></button>
-        </div>
-        </form>
-    {% endif %}
-
-    {% if current_user.is_authenticated %}
-    <button class="collection"><a href="{{ url_for('collection') }}">Collection</a></button>
-    <button class="logout"><a href="{{ url_for('logout') }}">Logout</a></button>
-    {% else %}
-        <button class="login"><a href="{{ url_for('login') }}">Login</a></button>
-        <button class="register"><a href="{{ url_for('register') }}">Register</a></button>
-    {% endif %}
-
-  <div class="type">
-      <form method="GET" action="{{ url_for('home') }}">
-        <label for="type_select">Choisir un type :</label>
-        <select name="type_select" id="type_select">
-            {% for row in types %}
-                {% if request.args.get('type_select') == row %}
-                    <option value="{{ row }}" selected>{{ row }}</option>
-                {% else %}
-                    <option value="{{ row }}">{{ row }}</option>
-                {% endif %}
+      <header>
+          <div class="recherche">
+               {% if form %}
+            <form method="POST" action="">
+                <div class="searchBox">
+                    <input
+                            class="searchInput"
+                        list="pokemon"
+                        type="search"
+                        id="autocomplete_input"
+                        name="autocomplete_input"
+                        placeholder="Rechercher pokemon…"
+                        autocomplete="on"
+                    />
+                    <datalist id="pokemon">
+                        {% for row in lesNomsDesPokemons %}
+                        <option value="{{ row }}"></option>
+                        {% endfor %}
+                    </datalist><button class="searchButton" type="submit"><img src="../static/pokeball.png" alt="" /></button>
+                </div>
+            </form>
+            {% endif %}
+          </div>
+          <div class="authen">
+            {% if current_user.is_authenticated %}
+            <button class="but"><a href="{{ url_for('collection') }}">Collection</a></button>
+            <button class="but"><a href="{{ url_for('logout') }}">Logout</a></button>
+            {% else %}
+                <button class="but"><a href="{{ url_for('login') }}">Login</a></button>
+                <button class="but"><a href="{{ url_for('register') }}">Register</a></button>
+            {% endif %}
+          </div>
+          <div class="type">
+              <form method="GET" action="{{ url_for('home') }}">
+                <label for="type_select">Choisir un type :</label>
+                <select name="type_select" id="type_select">
+                    {% for row in types %}
+                        {% if request.args.get('type_select') == row %}
+                            <option value="{{ row }}" selected>{{ row }}</option>
+                        {% else %}
+                            <option value="{{ row }}">{{ row }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    <option value="tous">Tous</option>
+                </select>
+                <button type="submit">Trier</button>
+              </form>
+          </div>
+      </header>
+      <section>
+        <h1>Pokedex</h1>
+            {% for pokemon in recommendations %}
+                <a href="{{url_for('pokemon_details', pokemon_id=pokemon.pokedexId)}}">
+                    <ul class="description">
+                        <div class="divPoke"><img class="imagePokeball" src="../static/pokeball.png">
+                            <img class="imagePokemon" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
+                        </div>
+                        <p>Id : {{pokemon.pokedexId}}</p>
+                        <ul class="nomPoke">
+                            <p>Nom en Francais : {{ pokemon.name['fr']|safe }}</p>
+                            <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
+                            <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
+                        </ul>
+                    </ul>
+                </a>
             {% endfor %}
-            <option value="tous">Tous</option>
-        </select>
-        <button type="submit">Trier</button>
-      </form>
-  </div>
-
-  </header>
-
-
-  <section>
-
-      <!-- Pokemon en recommandation code : -->
-    <h1>Votre recommandation de pokemon</h1>
-
-        {% for pokemon in recommendations %}
-            <a href="{{url_for('pokemon_details', pokemon_id=pokemon.pokedexId)}}">
-            <ul class="description">
-                <div class="divPoke"><img class="imagePokeball" src="../static/pokeball.png">
-                    <img class="imagePokemon" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
-
-                    </div>
-
-        <p>Id : {{pokemon.pokedexId}}</p>
-
-          <ul class="nomPoke">
-            <p>Nom en Francais : {{ pokemon.name['fr']|safe }}</p>
-            <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
-            <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
-          </ul>
-        </ul>
-            </a>
-        {% endfor %}
-
-    <!-- Fin du code de recommandation -->
-  </section>
-
+      </section>
   </body>
 </html>
