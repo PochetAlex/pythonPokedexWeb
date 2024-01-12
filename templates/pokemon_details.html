@@ -64,7 +64,17 @@
 
 </section>
 
-
+<div>
+<h2>Types</h2>
+    <ul class="type">
+        {% for evo in evolutions %}
+            <div>
+            <a href="{{url_for('pokemon_details', pokemon_id= evo.id)}}">
+            <p>{{ evo.name }}: <img class="imgType" src="{{evo.sprites}}" alt="image du type du pokemon" /> </p>
+            <p>{{ evo.condition }}</p></a></div>
+        {% endfor %}
+    </ul>
+</div>
 
 </body>
 </html>
