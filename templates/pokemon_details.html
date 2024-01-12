@@ -28,7 +28,30 @@
         <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
         <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
     </ul>
+    <div>
+        <audio id="pokemonAudio" controls style="display: none;"></audio>
 
+        <script>
+            var audioElement = document.querySelector("#pokemonAudio");
+            var audioSource = "../static/son/{{ pokemon.pokedexId }} - {{ pokemon.name['fr']|lower }}.ogg";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('HEAD', audioSource, true);
+
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    // Le fichier existe, donc on l'ajoute à la balise audio
+                    audioElement.src = audioSource;
+                    audioElement.style.display = "inline";
+                } else {
+                    // Le fichier n'existe pas, afficher un message
+                    console.log("Le son du Pokémon n'est pas disponible.");
+                }
+            };
+
+            xhr.send();
+        </script>
+    </div>
 </div>
 
 <div class="details">
@@ -63,6 +86,7 @@
     </form>
 
 </section>
+
 
 
 
