@@ -8,6 +8,15 @@
   </head>
   <body>
       <header>
+        <div class="authen">
+            {% if current_user.is_authenticated %}
+                <button class="but"><a href="{{ url_for('collection') }}">Collection</a></button>
+                <button class="but"><a href="{{ url_for('logout') }}">Logout</a></button>
+            {% else %}
+                <button class="but"><a href="{{ url_for('login') }}">Login</a></button>
+                <button class="but"><a href="{{ url_for('register') }}">Register</a></button>
+            {% endif %}
+          </div>
           <div class="recherche">
                {% if form %}
             <form method="POST" action="">
@@ -25,18 +34,12 @@
                         {% for row in lesNomsDesPokemons %}
                         <option value="{{ row }}"></option>
                         {% endfor %}
-                    </datalist><button class="searchButton" type="submit"><img src="../static/pokeball.png" alt="" /></button>
+                    </datalist>
+                    <button class="searchButton" type="submit">
+                        <img src="../static/pokeball.png" alt="" />
+                    </button>
                 </div>
             </form>
-            {% endif %}
-          </div>
-          <div class="authen">
-            {% if current_user.is_authenticated %}
-            <button class="but"><a href="{{ url_for('collection') }}">Collection</a></button>
-            <button class="but"><a href="{{ url_for('logout') }}">Logout</a></button>
-            {% else %}
-                <button class="but"><a href="{{ url_for('login') }}">Login</a></button>
-                <button class="but"><a href="{{ url_for('register') }}">Register</a></button>
             {% endif %}
           </div>
           <div class="type">
@@ -61,14 +64,15 @@
             {% for pokemon in recommendations %}
                 <a href="{{url_for('pokemon_details', pokemon_id=pokemon.pokedexId)}}">
                     <ul class="description">
-                        <div class="divPoke"><img class="imagePokeball" src="../static/pokeball.png">
+                        <div class="divPoke">
+                            <img class="imagePokeball" src="../static/pokeball.png">
                             <img class="imagePokemon" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
                         </div>
-                        <p>Id : {{pokemon.pokedexId}}</p>
+                        <p>Id {{pokemon.pokedexId}}</p>
                         <ul class="nomPoke">
                             <p>Nom en Francais : {{ pokemon.name['fr']|safe }}</p>
-                            <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
-                            <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
+                            <p class="del">Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
+                            <p class="del">Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
                         </ul>
                     </ul>
                 </a>
