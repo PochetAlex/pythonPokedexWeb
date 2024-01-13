@@ -4,15 +4,20 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Register</title>
+    <link href="../static/register.css" rel="stylesheet">
 </head>
 <body>
     <h1>Register</h1>
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <label for="username">Username:</label>
-        {{ form.username(size=20) }}
+        <div>
+            {{ form.username(size=20) }}
+        </div>
         <label for="password">Password:</label>
-        {{ form.password(size=20) }}
+        <div>
+            {{ form.password(size=20) }}
+        </div>
         <button type="submit">Register</button>
     </form>
 </body>
