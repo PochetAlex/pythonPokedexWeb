@@ -9,96 +9,90 @@
       <link href="https://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet">
 </head>
 <body>
-<header>
-
-    <button class ="colection"><a href="{{ url_for('collection') }}">Collection</a></button>
-    <button class ="colection"><a href="{{ url_for('home') }}">Accueil</a></button>
-</header>
-
-<section>
-<h1>Détails du Pokémon</h1>
-
-<div class="pokemon">
-
-
-    <img class="imgPoke" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
-    <p class="text1">Id: {{ pokemon.pokedexId }}</p>
-    <ul class="text2">
-        <p>Nom en Francais : {{ pokemon.name['fr']|safe }}</p>
-        <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
-        <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
-    </ul>
-    <div>
-        <audio id="pokemonAudio" controls style="display: none;"></audio>
-
-        <script>
-            var audioElement = document.querySelector("#pokemonAudio");
-            var audioSource = "../static/son/{{ pokemon.pokedexId }} - {{ pokemon.name['fr']|lower }}.ogg";
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('HEAD', audioSource, true);
-
-            xhr.onload = function () {
-                if (xhr.status == 200) {
-                    // Le fichier existe, donc on l'ajoute à la balise audio
-                    audioElement.src = audioSource;
-                    audioElement.style.display = "inline";
-                } else {
-                    // Le fichier n'existe pas, afficher un message
-                    console.log("Le son du Pokémon n'est pas disponible.");
-                }
-            };
-
-            xhr.send();
-        </script>
-    </div>
-</div>
-
-<div class="details">
-    <h2>Types</h2>
-    <ul class="type">
-        {% for poke_type in pokemon.types %}
-            <p>{{ poke_type.name }}: <img class="imgType" src="{{poke_type.image}}" alt="image du type du pokemon" /> </p>
-        {% endfor %}
-    </ul>
-
-    <h2 class="titreStat">Statistiques</h2>
-    <ul class="stats">
-        {% for stat, value in pokemon.stats.items() %}
-            <li>{{ stat }}: {{ value }}</li>
-        {% endfor %}
-    </ul>
-
-    <h2 class="titreResist">Résistances</h2>
-    <ul class="resistance">
-        {% if pokemon.resistances %}
-            {% for resistance in pokemon.resistances %}
-                <li>{{ resistance.name }} {{ resistance.multiplier }}</li>
-            {% endfor %}
-        {% else %}
-            <li>Aucune résistance</li>
-        {% endif %}
-    </ul>
-</div>
-
-    <form method="post" action="{{ url_for('add_to_collection', pokemon_id=pokemon.pokedexId) }}">
-        <button class="collection2" type="submit">Ajouter à la collection</button>
+    <header>
+        <button class ="colection"><a href="{{ url_for('collection') }}">Collection</a></button>
+        <button class ="colection"><a href="{{ url_for('home') }}">Accueil</a></button>
+    </header>
+    <form class="but" method="post" action="{{ url_for('add_to_collection', pokemon_id=pokemon.pokedexId) }}">
+        <button class="collec" type="submit">Ajouter à la collection</button>
     </form>
-
-</section>
-
-<div>
-<h2>Types</h2>
-    <ul class="type">
-        {% for evo in evolutions %}
+    <h1>Détails du Pokémon</h1>
+    <section>
+        <div class="pokemon">
+            <img class="imgPoke" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
+            <p class="text1">Id: {{ pokemon.pokedexId }}</p>
+            <h2>Types</h2>
+            <ul class="type">
+                {% for poke_type in pokemon.types %}
+                    <p>{{ poke_type.name }}: <img class="imgType" src="{{poke_type.image}}" alt="image du type du pokemon" /> </p>
+                {% endfor %}
+            </ul>
+            <ul class="text2">
+                <p>Nom en Francais : {{ pokemon.name['fr']|safe }}</p>
+                <p>Nom en Anglais : {{ pokemon.name['en']|safe }}</p>
+                <p>Nom en Japonais : {{ pokemon.name['jp']|safe }}</p>
+            </ul>
             <div>
-            <a href="{{url_for('pokemon_details', pokemon_id= evo.id)}}">
-            <p>{{ evo.name }}: <img class="imgType" src="{{evo.sprites}}" alt="image du type du pokemon" /> </p>
-            <p>{{ evo.condition }}</p></a></div>
-        {% endfor %}
-    </ul>
-</div>
+                <audio id="pokemonAudio" controls style="display: none;"></audio>
+                <script>
+                    var audioElement = document.querySelector("#pokemonAudio");
+                    var audioSource = "../static/son/{{ pokemon.pokedexId }} - {{ pokemon.name['fr']|lower }}.ogg";
 
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('HEAD', audioSource, true);
 
+                    xhr.onload = function () {
+                        if (xhr.status == 200) {
+                            // Le fichier existe, donc on l'ajoute à la balise audio
+                            audioElement.src = audioSource;
+                            audioElement.style.display = "inline";
+                        } else {
+                            // Le fichier n'existe pas, afficher un message
+                            console.log("Le son du Pokémon n'est pas disponible.");
+                        }
+                    };
+                    xhr.send();
+                </script>
+            </div>
+        </div>
+        <div class="evolution">
+            <h1>Evolutions</h1>
+            <ul>
+                {% if evolutions %}
+                    {% for evo in evolutions %}
+                        <div class="evol">
+                            <a href="{{url_for('pokemon_details', pokemon_id= evo.id)}}">
+                                <p>{{ evo.condition }}</p>
+                                </p> <img class="imgEvo" src="{{evo.sprites}}" alt="image du type du pokemon"> </p>
+                                <p>{{ evo.name }}</p>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+        <div class="details">
+            <div class="stats">
+                <h1>Statistiques</h1>
+                <ul>
+                    {% for stat, value in pokemon.stats.items() %}
+                        <li>{{ stat }}: {{ value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="resistance">
+                <h1>Résistances</h1>
+                <ul>
+                    {% if pokemon.resistances %}
+                        {% for resistance in pokemon.resistances %}
+                            <li>{{ resistance.name }} {{ resistance.multiplier }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li>Aucune résistance</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
