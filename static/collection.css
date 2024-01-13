@@ -1,8 +1,4 @@
 body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -12,11 +8,8 @@ body {
 
 header{
   width: 100%;
-  height: 25%;
-  position: fixed;
-  background-image: url("header.png");
-  margin-top: -12%;
-  margin-bottom: 150px;
+  height: 300px;
+  background: url("header.png") left/cover no-repeat;
 }
 
 img {
@@ -24,18 +17,29 @@ img {
 }
 
 h1{
-  margin-top: 12%;
-  margin-left: 42%;
   font-family: 'Pokemon Solid', sans-serif;
   font-size: 40px;
   color: #2f3640;
+  text-align: center;
 }
 
 li{
   display: flex;
-  gap: 50px;
-  width: 80%;
+  gap: 20px;
+  width: 100%;
 }
+
+.collection{
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+}
+
+ul > form{
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+
+
 
 .collectionButton{
   margin-left: 50%;
@@ -55,7 +59,6 @@ li{
 a{
   text-decoration : none;
   color: black;
-  width: 70%;
 }
 
 .imagePokemon, .imagePokeball{
@@ -69,31 +72,13 @@ a{
   margin-right: 50px;
 }
 
-.colection{
-  position: relative;
-  display:inline-block;
-  float:right;
-  bottom: 12%;
-  align-items: center;
-  background-color: whitesmoke;
-  border-radius: 24px;
-  font-family: "Google Sans",Roboto,Arial,sans-serif;
-  height: 60px;
-  padding: 2px 24px;
-  width: 160px;
-  cursor: pointer;
-  margin-right: 5%;
-}
-
 ul{
   align-items: center;
-  height: 80px;
+  padding: 10px;
   display: flex;
-  gap: 60px;
-  margin-bottom: 20px;
   background: white;
-  margin-left: 25%;
-  margin-right: 50%;
   border-radius: 30px;
-  width: 42%;
+  margin: auto;
+  margin-bottom:30px;
+  width: 80%;
 }

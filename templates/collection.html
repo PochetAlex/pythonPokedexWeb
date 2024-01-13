@@ -11,22 +11,24 @@
   <header>
     <button class ="collectionButton"><a href="{{ url_for('home') }}">Accueil</a></button>
   </header>
-
   <section>
       <h1>Ma Collection</h1>
-
         {% for pokemon in collection %}
-            <ul><a href="{{url_for('pokemon_details', pokemon_id=pokemon.id)}}"><li>
-            <div class="divPoke"><img class="imagePokeball" src="../static/pokeball.png">
-                    <img class="imagePokemon" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
-            </div>
-            <p>ID: {{ pokemon.id }}</p>
-            <p>Nom: {{ pokemon.name }}</p>
-            </li></a>
-            <form method="post" action="{{ url_for('remove_from_collection', pokemon_id=pokemon.id) }}">
-                <button class ="collection" type="submit">Supprimer de la collection</button>
-            </form>
-        </ul>
+            <ul>
+                <a href="{{url_for('pokemon_details', pokemon_id=pokemon.id)}}">
+                    <li>
+                        <div class="divPoke">
+                            <img class="imagePokeball" src="../static/pokeball.png">
+                            <img class="imagePokemon" src="{{pokemon.sprites.regular}}" alt="image de pokemon" />
+                        </div>
+                        <p>ID: {{ pokemon.id }}</p>
+                        <p>Nom: {{ pokemon.name }}</p>
+                    </li>
+                </a>
+                <form method="post" action="{{ url_for('remove_from_collection', pokemon_id=pokemon.id) }}">
+                    <button class ="collection" type="submit">Supprimer de la collection</button>
+                </form>
+            </ul>
         {% endfor %}
   </section>
 </body>
