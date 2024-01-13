@@ -10,8 +10,8 @@
 </head>
 <body>
     <header>
-        <button class ="colection"><a href="{{ url_for('collection') }}">Collection</a></button>
-        <button class ="colection"><a href="{{ url_for('home') }}">Accueil</a></button>
+        <button class ="collection"><a href="{{ url_for('collection') }}">Collection</a></button>
+        <button class ="collection"><a href="{{ url_for('home') }}">Accueil</a></button>
     </header>
     <form class="but" method="post" action="{{ url_for('add_to_collection', pokemon_id=pokemon.pokedexId) }}">
         <button class="collec" type="submit">Ajouter à la collection</button>
@@ -37,10 +37,8 @@
                 <script>
                     var audioElement = document.querySelector("#pokemonAudio");
                     var audioSource = "../static/son/{{ pokemon.pokedexId }} - {{ pokemon.name['fr']|lower }}.ogg";
-
                     var xhr = new XMLHttpRequest();
                     xhr.open('HEAD', audioSource, true);
-
                     xhr.onload = function () {
                         if (xhr.status == 200) {
                             // Le fichier existe, donc on l'ajoute à la balise audio
@@ -85,7 +83,10 @@
                 <ul>
                     {% if pokemon.resistances %}
                         {% for resistance in pokemon.resistances %}
-                            <li>{{ resistance.name }} {{ resistance.multiplier }}</li>
+                            <div>
+                                <li>{{ resistance.name }} </li>
+                                <li>{{ resistance.multiplier }}</li>
+                            </div>
                         {% endfor %}
                     {% else %}
                         <li>Aucune résistance</li>

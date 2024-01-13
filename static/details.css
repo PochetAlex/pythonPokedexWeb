@@ -45,7 +45,6 @@ h1{
   margin: auto;
 }
 
-
 .evolution ul {
   display: flex;
   flex-direction: row;
@@ -77,9 +76,7 @@ h1{
   align-items: center;
 }
 
-
-
-.colection{
+.collection{
   left: 45%;
   top: 32%;
   align-items: center;
@@ -87,13 +84,11 @@ h1{
   border-radius: 24px;
   border-style: none;
   font-family: "Google Sans",Roboto,Arial,sans-serif;
-  height: 48px;
-  padding: 2px 24px;
+  padding: 10px;
   position: relative;
   width: auto;
   text-decoration:none;
 }
-
 
 .details{
   display: flex;
@@ -108,8 +103,11 @@ h1{
   flex-direction: column;
   margin-left: 15%;
 }
+
 .stats ul {
     list-style  : none;
+    background-color: white;
+    border: 2px solid black;
 }
 
 .resistance ul {
@@ -118,17 +116,43 @@ h1{
   gap: 10px;
   list-style: none;
   font-size: 12.5px;
-  width: 10%;
+  background-color: white;
+  border: 2px solid black;
 }
+
 
 .resistance {
   margin-left: auto;
   margin-right: 10%;
-}
 
+}
 
 a{
   text-decoration : none;
   align-items: center;
   color: black;
+}
+
+@media screen and (max-width: 500px) {
+  .evolution img{
+    width:40%;
+  }
+
+  .details{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .resistance ul{
+    flex-direction: column;
+  }
+
+  .resistance ul div{
+    display: flex;
+    gap: 20px;
+  }
+
+  .stats li{
+    text-align: center;
+  }
 }
